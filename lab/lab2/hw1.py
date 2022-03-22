@@ -7,20 +7,13 @@ from mininet.log import setLogLevel
 from mininet.cli import CLI
 from mininet.link import TCLink
 
-class SingleSwitchTopo(Topo):
-    "Single switch connected to n hosts."
-    def build(self, n=2):
-        switch = self.addSwitch('s1')
-        # Python's range(N) generates 0..N-1
-        for h in range(n):
-            host = self.addHost('h%s' % (h + 1))
-            self.addLink(host, switch)
+
 
 class Topo1(Topo):
     topo_edges = [{'n0': 's1', 'n1': 'h2'},
                   {'n0': 's1', 'n1': 'h4'},
-                  {'n0': 's1', 'n1': 's2','bw': 10,'loss': 0},
-                  {'n0': 's1', 'n1': 's3','bw': 10,'loss': 0},
+                  {'n0': 's1', 'n1': 's2','bw': 10,'loss': 0}, # 10Mbps, 0% packet loss
+                  {'n0': 's1', 'n1': 's3','bw': 10,'loss': 0}, # 10Mbps, 0% packet loss
                   {'n0': 's2', 'n1': 'h6'},
                   {'n0': 's2', 'n1': 'h5'},
                   {'n0': 's3', 'n1': 'h1'},
@@ -46,22 +39,7 @@ class Topo1(Topo):
                 self.addLink(n0, n1, bw=bw)
             else:
                 self.addLink(n0, n1)
-            
 
-            
-
-
-
-def simpleTest():
-    "Create and test a simple network"
-    topo = SingleSwitchTopo(n=4)
-    net = Mininet(topo)
-    net.start()
-    print( "Dumping host connections" )
-    dumpNodeConnections(net.hosts)
-    print( "Testing network connectivity" )
-    net.pingAll()
-    net.stop()
 
 def my_test():
     print("starting...")
@@ -82,6 +60,5 @@ def my_test():
 
 if __name__ == '__main__':
     # Tell mininet to print useful information
-    
     setLogLevel('info')
     my_test()
